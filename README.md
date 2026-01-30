@@ -15,16 +15,28 @@ ActivityWatch  ───>  TimeTracker  ───>  Tempo/Jira
 
 ## Windows
 
-### Opcja 1: Instalator (Zalecane)
+### Krok 1: Zainstaluj ActivityWatch (WYMAGANE!)
 
-1. **Pobierz instalator z repozytorium:**
-   - [TimeTracker-Setup-x64.exe](releases/TimeTracker-Setup-x64.exe)
+**ActivityWatch musi byc zainstalowany PRZED uruchomieniem TimeTracker!**
 
-2. **Uruchom instalator** - Node.js jest wbudowany, brak dodatkowych wymagań
+1. **Pobierz ActivityWatch:** [activitywatch-v0.13.2-windows-x86_64-setup.exe](https://github.com/ActivityWatch/activitywatch/releases/download/v0.13.2/activitywatch-v0.13.2-windows-x86_64-setup.exe)
+2. Uruchom instalator ActivityWatch
+3. Po instalacji ActivityWatch uruchomi sie automatycznie (ikona w zasobniku przy zegarku)
+4. **Sprawdz:** Otworz http://localhost:5600 - powinienes widziec dashboard
 
-3. **Kliknij "AI TimeTracker"** w menu Start
+### Krok 2: Zainstaluj TimeTracker
 
-> **Wymagane:** Zainstaluj [ActivityWatch](https://activitywatch.net/downloads/) przed pierwszym uruchomieniem
+**Pobierz instalator:** [TimeTracker-Setup-x64.exe](https://github.com/gacabartosz/ai-timetracker/raw/main/releases/TimeTracker-Setup-x64.exe) (52 MB)
+
+1. Uruchom pobrany instalator - Node.js jest wbudowany
+2. Kliknij "AI TimeTracker" w menu Start
+3. Otworzy sie przegladarka z aplikacja na http://localhost:5666/timetracker
+
+### Opcja alternatywna: Portable (bez instalacji)
+
+1. Pobierz `TimeTracker-*-portable.zip` z [GitHub Releases](https://github.com/gacabartosz/ai-timetracker/releases/latest)
+2. Wypakuj do dowolnego folderu
+3. Uruchom `TimeTracker.bat`
 
 ### Opcja 2: Portable (bez instalacji)
 
