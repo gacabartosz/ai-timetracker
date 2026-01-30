@@ -312,17 +312,31 @@ jobs:
         shell: pwsh
         run: |
           $InnoPath = "C:\Program Files (x86)\Inno Setup 6\ISCC.exe"
-          
-          # Run from repo root so paths in .iss are relative
-          & $InnoPath "installer\timetracker.iss"
-          
-          if ($LASTEXITCODE -ne 0) {
+
+          # Copy bundle to short path to avoid Windows path length limit
+          $ShortPath = "C:\TT"
+          New-Item -ItemType Directory -Path $ShortPath -Force | Out-Null
+          Copy-Item -Recurse "dist\windows\*" "$ShortPath\"
+          Copy-Item "installer\timetracker.iss" "$ShortPath\tt.iss"
+
+          # Update paths in .iss file for short path
+          $IssContent = Get-Content "$ShortPath\tt.iss" -Raw
+          $IssContent = $IssContent -replace '\.\.\\dist\\windows\\', ''
+          Set-Content -Path "$ShortPath\tt.iss" -Value $IssContent
+
+          # Run Inno Setup from short path
+          Push-Location $ShortPath
+          & $InnoPath "tt.iss"
+          $ExitCode = $LASTEXITCODE
+          Pop-Location
+
+          if ($ExitCode -ne 0) {
             Write-Error "Inno Setup failed"
             exit 1
           }
-          
+
           # Move output to dist
-          Move-Item "installer\output\*.exe" "dist\"
+          Move-Item "$ShortPath\output\*.exe" "dist\"
           Write-Host "Installer created"
 
       - name: List artifacts
