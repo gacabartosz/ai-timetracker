@@ -34,6 +34,9 @@ Compression=lzma2/ultra64
 SolidCompression=yes
 LZMAUseSeparateProcess=yes
 
+; Long paths support (for node_modules)
+UseLongFileNames=yes
+
 ; UI
 WizardStyle=modern
 WizardSizePercent=110
