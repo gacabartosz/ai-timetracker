@@ -28,11 +28,11 @@ ActivityWatch  ───>  TimeTracker  ───>  Tempo/Jira
 
 ### Opcja 2: Portable (bez instalacji)
 
-1. Pobierz [TimeTracker-latest-portable.zip](releases/TimeTracker-latest-portable.zip)
+1. Pobierz `TimeTracker-*-portable.zip` z [GitHub Releases](https://github.com/gacabartosz/ai-timetracker/releases/latest)
 2. Wypakuj do dowolnego folderu
 3. Uruchom `TimeTracker.bat`
 
-### Opcja 3: Z GitHub Releases
+### Opcja 3: Wszystkie pliki z GitHub Releases
 
 Pobierz najnowszą wersję z [GitHub Releases](https://github.com/gacabartosz/ai-timetracker/releases/latest)
 
@@ -401,9 +401,8 @@ ai-timetracker/
 │   └── .env.local               # KONFIGURACJA (tokeny)
 ├── scripts/windows/             # Skrypty budowania paczki Windows
 ├── installer/                   # Definicja instalatora (Inno Setup)
-├── releases/                    # Pre-built Windows EXE (auto-update)
-│   ├── TimeTracker-Setup-x64.exe
-│   └── TimeTracker-latest-portable.zip
+├── releases/                    # Pre-built Windows installer (auto-update)
+│   └── TimeTracker-Setup-x64.exe
 ├── .github/workflows/           # GitHub Actions (auto-build)
 └── .env.example                 # Szablon konfiguracji
 ```

@@ -420,13 +420,9 @@ jobs:
           # Create releases directory
           mkdir -p releases
 
-          # Copy artifacts to releases/
+          # Copy only EXE (ZIP is too large for GitHub's 100MB limit)
+          # Portable ZIP is available in GitHub Releases and as build artifact
           cp dist/TimeTracker-Setup-x64.exe releases/
-          cp dist/TimeTracker-*-portable-x64.zip releases/TimeTracker-latest-portable.zip
-
-          # Also keep versioned copies
-          cp dist/TimeTracker-Setup-x64.exe "releases/TimeTracker-Setup-x64-${VERSION}.exe"
-          cp dist/TimeTracker-*-portable-x64.zip "releases/TimeTracker-${VERSION}-portable.zip"
 
           # Git add and commit
           git add releases/
@@ -435,7 +431,7 @@ jobs:
           if git diff --staged --quiet; then
             echo "No changes to commit"
           else
-            git commit -m "chore: Auto-update Windows releases (${VERSION}) [skip ci]"
+            git commit -m "chore: Auto-update Windows installer (${VERSION}) [skip ci]"
             git push origin main
             echo "Releases committed successfully"
           fi
