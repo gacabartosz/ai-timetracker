@@ -36,3 +36,9 @@ coverage/
 # Misc
 *.tsbuildinfo
 .cache/
+
+# Windows releases - explicitly tracked
+!releases/
+!releases/*.exe
+!releases/*.zip
+!releases/README.md

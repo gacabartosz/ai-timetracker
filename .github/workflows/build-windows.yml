@@ -1,10 +1,16 @@
 # Build Windows Installer and Portable Package
-# Triggers on tags (vX.Y.Z) or manual workflow_dispatch
+# Triggers on push to main, tags (vX.Y.Z), or manual workflow_dispatch
+# EXE files are automatically committed to releases/ folder
 
 name: Build Windows Package
 
 on:
   push:
+    branches:
+      - main
+    paths-ignore:
+      - 'releases/**'
+      - '**.md'
     tags:
       - 'v*'
   workflow_dispatch:
@@ -21,7 +27,9 @@ env:
 jobs:
   build-windows:
     runs-on: windows-latest
-    
+    permissions:
+      contents: write
+
     steps:
       - name: Enable long paths
         shell: pwsh
@@ -395,6 +403,42 @@ jobs:
           name: TimeTracker-installer
           path: dist/TimeTracker-Setup-*.exe
           retention-days: 30
+
+      - name: Commit releases to repo
+        if: github.ref == 'refs/heads/main'
+        shell: bash
+        run: |
+          VERSION="${{ steps.version.outputs.version }}"
+
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          # Fetch latest and checkout main
+          git fetch origin main
+          git checkout main
+
+          # Create releases directory
+          mkdir -p releases
+
+          # Copy artifacts to releases/
+          cp dist/TimeTracker-Setup-x64.exe releases/
+          cp dist/TimeTracker-*-portable-x64.zip releases/TimeTracker-latest-portable.zip
+
+          # Also keep versioned copies
+          cp dist/TimeTracker-Setup-x64.exe "releases/TimeTracker-Setup-x64-${VERSION}.exe"
+          cp dist/TimeTracker-*-portable-x64.zip "releases/TimeTracker-${VERSION}-portable.zip"
+
+          # Git add and commit
+          git add releases/
+
+          # Only commit if there are changes
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "chore: Auto-update Windows releases (${VERSION}) [skip ci]"
+            git push origin main
+            echo "Releases committed successfully"
+          fi
 
   # Create GitHub Release on tags
   release:
